@@ -56,6 +56,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/store-response', [HazardReportController::class, 'store_response'])->name('store_response');
         Route::get('/closed-index', [HazardReportController::class, 'closed_index'])->name('closed_index');
         Route::get('/closed-show/{id}', [HazardReportController::class, 'show_closed'])->name('show_closed');
+        Route::get('/export', [HazardReportController::class, 'export_to_excel'])->name('export_to_excel');
     });
     Route::resource('hazard-rpt', HazardReportController::class);
 

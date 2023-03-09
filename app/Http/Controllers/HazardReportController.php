@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\HazardReportExport;
 use App\Models\DangerType;
 use App\Models\Department;
 use App\Models\HazardReport;
@@ -9,6 +10,7 @@ use App\Models\ReportAttachment;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class HazardReportController extends Controller
 {
@@ -249,4 +251,44 @@ class HazardReportController extends Controller
             ->rawColumns(['action', 'description'])
             ->toJson();
     }
+
+    public function export_to_excel()
+    {
+        return Excel::download(new HazardReportExport, 'hazard_report.xlsx');
+    }
+
+    /*
+    public function export()
+    {
+        $roles = User::find(auth()->user()->id)->getRoleNames()->toArray();
+
+        if (in_array('superadmin', $roles) || in_array('admin_ho', $roles)) {
+            $hazards = HazardReport::where('status', 'pending')->orderBy('created_at', 'desc')
+                ->get();
+        } else {
+            $hazards = HazardReport::where('status', 'pending')
+                ->where('project_code', auth()->user()->project)
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
+
+        $data = [];
+        foreach ($hazards as $hazard) {
+            $data[] = [
+                'Date' => $hazard->created_at->addHours(8)->format('d M Y - H:i:s'),
+                'Project' => $hazard->project->project_name,
+                'Department' => $hazard->department->department_name,
+                'Danger Type' => $hazard->danger_type->danger_type,
+                'Description' => $hazard->description,
+                'Days' => $hazard->created_at->addHours(8)->diffInDays(Carbon::now()->addHours(8)),
+            ];
+        }
+
+        return Excel::create('hazard_report', function ($excel) use ($data) {
+            $excel->sheet('hazard_report', function ($sheet) use ($data) {
+                $sheet->fromArray($data);
+            });
+        })->download('xlsx');
+    }
+    */
 }

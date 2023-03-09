@@ -21,11 +21,6 @@ class HazardReport extends Model
         return $this->belongsTo(Department::class, 'to_department_id', 'id');
     }
 
-    // public function danger_type()
-    // {
-    //     return $this->belongsTo(DangerType::class, 'danger_type_id', 'id');
-    // }
-
     public function attachments()
     {
         return $this->hasMany(ReportAttachment::class, 'hazard_report_id', 'id');

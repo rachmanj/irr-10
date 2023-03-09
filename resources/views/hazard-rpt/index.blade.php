@@ -16,7 +16,8 @@
       <div class="card-header">
         <a href="#"><b>PENDING REPORTS</b> | </a>
         <a href="{{ route('hazard-rpt.closed_index') }}"> Closed Reports</a>
-        <a href="{{ route('hazard-rpt.create') }}" class="btn btn-sm btn-primary float-right"><i class="fas fa-plus"></i> New Report</a>
+        <a href="{{ route('hazard-rpt.create') }}" class="btn btn-sm btn-primary float-right mx-3"><i class="fas fa-plus"></i> New Report</a>
+        <a href="{{ route('hazard-rpt.export_to_excel') }}" class="btn btn-sm btn-success float-right"><i class="fas fa-file-excel"></i>   Export to Excel</a>
       </div>
       <!-- /.card-header -->
       <div class="card-body">
