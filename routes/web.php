@@ -1,14 +1,19 @@
 <?php
 
-use App\Http\Controllers\DangerTypeController;
+use App\Http\Controllers\AssetCategoryController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\HazardReportController;
-use App\Http\Controllers\HazardResponseController;
+use App\Http\Controllers\DocumentTypeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ManufactureController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\PlantGroupController;
+use App\Http\Controllers\PlantTypeController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\ReportAttachmentController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UnitmodelController;
+use App\Http\Controllers\UnitstatusController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +43,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
+    // PERMISSIONS
+    Route::get('permissions/data', [PermissionController::class, 'data'])->name('permissions.data');
     Route::resource('permissions', PermissionController::class);
 
     // DASHBOARD
@@ -46,33 +53,39 @@ Route::middleware('auth')->group(function () {
         Route::get('/test', [DashboardController::class, 'test'])->name('test');
     });
 
-    // HAZARD REPORTS
-    Route::prefix('hazard-rpt')->name('hazard-rpt.')->group(function () {
-        Route::get('/data', [HazardReportController::class, 'data'])->name('data');
-        Route::get('/response_data/{id}', [HazardReportController::class, 'response_data'])->name('response_data');
-        Route::get('/closed-data', [HazardReportController::class, 'closed_data'])->name('closed_data');
-        Route::get('/close-rpt/{id}', [HazardReportController::class, 'close_report'])->name('close_report');
-        Route::post('/store-attachment', [HazardReportController::class, 'store_attachment'])->name('store_attachment');
-        Route::post('/store-response', [HazardReportController::class, 'store_response'])->name('store_response');
-        Route::get('/closed-index', [HazardReportController::class, 'closed_index'])->name('closed_index');
-        Route::get('/closed-show/{id}', [HazardReportController::class, 'show_closed'])->name('show_closed');
-        Route::get('/export', [HazardReportController::class, 'export_to_excel'])->name('export_to_excel');
-    });
-    Route::resource('hazard-rpt', HazardReportController::class);
+    // ASSET CATEGORIES
+    Route::get('asset_categories/data', [AssetCategoryController::class, 'index_data'])->name('asset_categories.index.data');
+    Route::resource('asset_categories', AssetCategoryController::class);
 
-    // REPORT ATTACHMENTS
-    Route::prefix('report-attachment')->name('report-attachment.')->group(function () {
-        // Route::post('/', [ReportAttachmentController::class, 'store'])->name('store');
-        Route::delete('/{id}', [ReportAttachmentController::class, 'destroy'])->name('destroy');
-    });
+    // DOCUMENT TYPES
+    Route::get('doctypes/data', [DocumentTypeController::class, 'index_data'])->name('doctypes.index.data');
+    Route::resource('doctypes', DocumentTypeController::class);
 
-    // DANGER TYPES
-    Route::get('danger-types/data', [DangerTypeController::class, 'data'])->name('danger-types.data');
-    Route::resource('danger-types', DangerTypeController::class);
+    // MANUFACTURES
+    Route::get('manufactures/data', [ManufactureController::class, 'data'])->name('manufactures.data');
+    Route::resource('manufactures', ManufactureController::class);
 
-    // HAZARD RESPONSES
-    Route::prefix('hazard-responses')->name('hazard-responses.')->group(function () {
-        Route::get('data', [HazardResponseController::class, 'data'])->name('data');
-        Route::put('/{id}', [HazardResponseController::class, 'destroy'])->name('destroy');
-    });
+    // PROJECTS
+    Route::get('projects/data', [ProjectController::class, 'data'])->name('projects.data');
+    Route::resource('projects', ProjectController::class);
+
+    // PLANT TYPES
+    Route::get('planttypes/data', [PlantTypeController::class, 'data'])->name('planttypes.data');
+    Route::resource('planttypes', PlantTypeController::class);
+
+    // PLANT GROUPS
+    Route::get('plant_groups/data', [PlantGroupController::class, 'data'])->name('plant_groups.data');
+    Route::resource('plant_groups', PlantGroupController::class);
+
+    // SUPPLIERS
+    Route::get('suppliers/data', [SupplierController::class, 'data'])->name('suppliers.data');
+    Route::resource('suppliers', SupplierController::class);
+
+    // UNIT MODELS
+    Route::get('unitmodels/data', [UnitmodelController::class, 'data'])->name('unitmodels.data');
+    Route::resource('unitmodels', UnitmodelController::class);
+
+    // UNIT STATUS
+    Route::get('unitstatuses/data', [UnitstatusController::class, 'data'])->name('unitstatuses.data');
+    Route::resource('unitstatuses', UnitstatusController::class);
 });

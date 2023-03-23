@@ -28,4 +28,12 @@ class PermissionController extends Controller
 
         return redirect()->route('permissions.index')->with('success', 'Permission created successfully');
     }
+
+    public function data()
+    {
+        $permissions = Permission::all();
+        return datatables()->of($permissions)
+            ->addIndexColumn()
+            ->make(true);
+    }
 }
