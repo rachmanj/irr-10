@@ -24,7 +24,7 @@
           
           {{-- @include('dashboard.index') --}}
   
-          {{-- @include('templates.partials.menu.equipment') --}}
+          @include('templates.partials.menu.equipment')
   
           {{-- @include('templates.partials.menu.movings') --}}
           

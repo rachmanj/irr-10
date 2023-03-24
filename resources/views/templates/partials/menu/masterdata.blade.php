@@ -27,7 +27,6 @@
     </p>
   </a>
   <ul class="nav nav-treeview">
-    <li class="nav-item">
         @include('templates.partials.menu.masterdata.asset_categories')
         @include('templates.partials.menu.masterdata.doctypes')
         @include('templates.partials.menu.masterdata.manufacture')
@@ -37,6 +36,5 @@
         @include('templates.partials.menu.masterdata.suppliers')
         @include('templates.partials.menu.masterdata.unitmodel')
         @include('templates.partials.menu.masterdata.unitstatus')
-    </li>
   </ul>
 </li>

@@ -8,7 +8,7 @@
 
   <ul class="navbar-nav ml-auto">
     <li class="nav-item dropdown">
-      <a id="dropdownPayreq" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">{{ auth()->user()->name }}</a>
+      <a id="dropdownPayreq" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle"><strong>{{ auth()->user()->name }}</strong></a>
       <ul aria-labelledby="dropdownPayreq" class="dropdown-menu border-0 shadow">
         <li>
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

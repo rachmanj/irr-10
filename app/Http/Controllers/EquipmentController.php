@@ -35,17 +35,22 @@ class EquipmentController extends Controller
         return view('equipments.create', compact('projects', 'unitmodels', 'plant_types', 'asset_categories', 'unitstatuses'));
     }
 
-    public function store(StoreEquipmentRequest $request)
+    public function store(Request $request)
     {
-        $this->validate($request, [
+        $validated = $request->validate([
             'unit_no'   => ['required', 'unique:equipments,unit_no'],
-            'active_date' => ['required']
+            'active_date' => ['required'],
+            'description' => ['required'],
+            'unitmodel_id' => ['required'],
+            'plant_type_id' => ['required'],
+            'asset_category_id' => ['required'],
+            'unitstatus_id' => ['required'],
+            'current_project_id' => ['required'],
         ]);
 
-        Equipment::create(array_merge($request->validated(), [
-            'unit_no' => $request->unit_no,
+        Equipment::create(array_merge($validated, [
             'plant_group_id' => $request->plant_group_id,
-            'active_date' => $request->active_date
+            'created_by' => auth()->user()->id,
         ]));
 
         return redirect()->route('equipments.index')->with('success', 'Data successfully added');
@@ -69,19 +74,24 @@ class EquipmentController extends Controller
         return view('equipments.edit', compact('equipment', 'projects', 'unitmodels', 'plant_types', 'asset_categories', 'unitstatuses'));
     }
 
-    public function update(StoreEquipmentRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'unit_no' => ['required', 'unique:equipments,unit_no,' . $id],
-            'active_date' => ['required']
+        $validated = $request->validate([
+            'unit_no'   => ['required', 'unique:equipments,unit_no,' . $id],
+            'active_date' => ['required'],
+            'description' => ['required'],
+            'unitmodel_id' => ['required'],
+            'plant_type_id' => ['required'],
+            'asset_category_id' => ['required'],
+            'unitstatus_id' => ['required'],
+            'current_project_id' => ['required'],
         ]);
 
         $equipment = Equipment::find($id);
 
-        $equipment->update(array_merge($request->validated(), [
-            'unit_no' => $request->unit_no,
+        $equipment->update(array_merge($validated, [
             'plant_group_id' => $request->plant_group_id,
-            'active_date' => $request->active_date
+            'updated_by' => auth()->user()->id,
         ]));
 
         return redirect()->route('equipments.index')->with('success', 'Data successfully updated');

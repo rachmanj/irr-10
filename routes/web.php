@@ -3,6 +3,7 @@
 use App\Http\Controllers\AssetCategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DocumentTypeController;
+use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ManufactureController;
 use App\Http\Controllers\PermissionController;
@@ -52,6 +53,20 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('index');
         Route::get('/test', [DashboardController::class, 'test'])->name('test');
     });
+
+    // EQUIPMENTS
+    Route::get('equipments/data', [EquipmentController::class, 'index_data'])->name('equipments.index.data');
+    Route::get('equipments/{equipment}/movings/data', [EquipmentController::class, 'equipment_movings_data'])->name('equipments.movings.data');
+    Route::get('equipments/{equipment}/changes/data', [EquipmentController::class, 'equipment_changes_data'])->name('equipments.changes.data');
+    Route::get('equipments/{equipment}/legals/data', [EquipmentController::class, 'equipment_legals_data'])->name('equipments.legals.data');
+    Route::get('equipments/{equipment}/acquisitions/data', [EquipmentController::class, 'equipment_acquisitions_data'])->name('equipments.acquisitions.data');
+    Route::get('equipments/{equipment}/insurance/data', [EquipmentController::class, 'equipment_insurance_data'])->name('equipments.insurance.data');
+    Route::get('equipments/{equipment}/others/data', [EquipmentController::class, 'equipment_others_data'])->name('equipments.others.data');
+    Route::get('equipments/{equipment}/edit_detail', [EquipmentController::class, 'edit_detail'])->name('equipments.edit_detail');
+    Route::put('equipments/{equipment}/update_detail', [EquipmentController::class, 'update_detail'])->name('equipments.update_detail');
+    Route::get('/equipments/export_excel', [EquipmentController::class, 'equipment_export_excel'])->name('equipments.export_excel');
+    Route::resource('equipments', EquipmentController::class);
+
 
     // ASSET CATEGORIES
     Route::get('asset_categories/data', [AssetCategoryController::class, 'index_data'])->name('asset_categories.index.data');
