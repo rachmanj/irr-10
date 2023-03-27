@@ -15,6 +15,7 @@
 
           <div class="card-header">
             <h3 class="card-title">Create New Change</h3>
+            <a href="{{ route('unitnohistories.index') }}" class="btn btn-sm btn-primary float-right"><i class="fas fa-arrow-left"></i> Back</a>
           </div> {{-- card-header --}}
 
           <form action="{{ route('unitnohistories.store') }}" method="POST">

@@ -15,6 +15,7 @@
 
           <div class="card-header">
             <h3 class="card-title">Change Detail</h3>
+            <a href="{{ route('unitnohistories.index') }}" class="btn btn-sm btn-primary float-right"><i class="fas fa-arrow-left"></i> Back</a>
           </div> {{-- card-header --}}
 
           <form>
@@ -60,9 +61,7 @@
               </div> {{-- row --}}
 
             </div> {{-- card-body --}}
-            <div class="card-footer">
-              <a href="{{ route('unitnohistories.index') }}" class="btn btn-sm btn-primary"><i class="fas fa-undo"></i> Back</a>
-            </div>
+            
           </form>
 
         </div> {{--  card --}}
