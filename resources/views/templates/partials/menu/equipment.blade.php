@@ -16,5 +16,7 @@
     </a>
     <ul class="nav nav-treeview">
         @include('templates.partials.menu.equipments.list')
+        @include('templates.partials.menu.equipments.movings')
+        @include('templates.partials.menu.equipments.unitnohistories')
     </ul>
 </li>

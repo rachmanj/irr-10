@@ -24,9 +24,14 @@ class MovingController extends Controller
         return view('movings.create', compact('projects'));
     }
 
-    public function store(StoreMovingRequest $request)
+    public function store(Request $request)
     {
         $this->validate($request, [
+            'ipa_date' => ['required'],
+            'from_project_id' => ['required'],
+            'to_project_id' => ['required'],
+            'tujuan_row_1' => ['required'],
+            'cc_row_1' => ['required'],
             'ipa_no' => ['required', 'unique:movings,ipa_no']
         ]);
 
@@ -53,9 +58,14 @@ class MovingController extends Controller
         return view('movings.edit_before_equipment', compact('moving', 'projects'));
     }
 
-    public function update_before_select_equipment(StoreMovingRequest $request, $id)
+    public function update_before_select_equipment(Request $request, $id)
     {
         $this->validate($request, [
+            'ipa_date' => ['required'],
+            'from_project_id' => ['required'],
+            'to_project_id' => ['required'],
+            'tujuan_row_1' => ['required'],
+            'cc_row_1' => ['required'],
             'ipa_no' => ['required', 'unique:movings,ipa_no,' . $id]
         ]);
 
@@ -74,8 +84,6 @@ class MovingController extends Controller
     public function print_pdf($id)
     {
         $moving = Moving::with('moving_details.equipment')->where('id', $id)->first();
-        // return $moving;
-        // die;
 
         return view('movings.print_pdf', compact('moving'));
     }
@@ -94,9 +102,14 @@ class MovingController extends Controller
         return view('movings.edit', compact('moving', 'projects'));
     }
 
-    public function update(StoreMovingRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $this->validate($request, [
+            'ipa_date' => ['required'],
+            'from_project_id' => ['required'],
+            'to_project_id' => ['required'],
+            'tujuan_row_1' => ['required'],
+            'cc_row_1' => ['required'],
             'ipa_no' => ['required', 'unique:movings,ipa_no,' . $id]
         ]);
 
@@ -120,9 +133,11 @@ class MovingController extends Controller
 
     public function index_data()
     {
-        $movings = Moving::orderBy('ipa_date', 'desc')
+        $movings = Moving::with('creator')->orderBy('ipa_date', 'desc')
             ->orderBy('ipa_no', 'desc')
             ->get();
+
+        // return $movings;
 
         return datatables()->of($movings)
             ->editColumn('ipa_date', function ($movings) {

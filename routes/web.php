@@ -6,6 +6,8 @@ use App\Http\Controllers\DocumentTypeController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ManufactureController;
+use App\Http\Controllers\MovingController;
+use App\Http\Controllers\MovingDetailController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PlantGroupController;
 use App\Http\Controllers\PlantTypeController;
@@ -14,6 +16,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UnitmodelController;
+use App\Http\Controllers\UnitnoHistoryController;
 use App\Http\Controllers\UnitstatusController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -67,6 +70,25 @@ Route::middleware('auth')->group(function () {
     Route::get('/equipments/export_excel', [EquipmentController::class, 'equipment_export_excel'])->name('equipments.export_excel');
     Route::resource('equipments', EquipmentController::class);
 
+    // MOVINGS
+    Route::get('movings/data', [MovingController::class, 'index_data'])->name('movings.index.data');
+    Route::get('movings/{moving}/print_pdf', [MovingController::class, 'print_pdf'])->name('movings.print_pdf');
+    Route::get('movings/{moving}/print2_pdf', [MovingController::class, 'print2_pdf'])->name('movings.print2_pdf');
+    Route::get('movings/{moving}/before_select', [MovingController::class, 'edit_before_select_equipment'])->name('movings.before_select_equipment');
+    Route::put('movings/{moving}/before_select', [MovingController::class, 'update_before_select_equipment'])->name('movings.update_before_select_equipment');
+    Route::resource('movings', MovingController::class);
+
+    Route::get('moving_details/incart/data', [MovingDetailController::class, 'unit_incart_data'])->name('moving_details.unit_incart.data');
+    Route::get('moving_details/{from_project_id}/data', [MovingDetailController::class, 'available_unit_data'])->name('moving_details.available_unit.data');
+
+    Route::get('moving_details/{moving_id}/create', [MovingDetailController::class, 'create'])->name('moving_details.create');
+    Route::post('moving_details', [MovingDetailController::class, 'store'])->name('moving_details.store');
+    Route::patch('moving_details/{equipment_id}/add_tocart', [MovingDetailController::class, 'add_tocart'])->name('moving_details.add_tocart');
+    Route::patch('moving_details/{equipment_id}/remove_fromcart', [MovingDetailController::class, 'remove_fromcart'])->name('moving_details.remove_fromcart');
+
+    // UNIT NUMBER HISTORIES
+    Route::get('unitnohistories/data', [UnitnoHistoryController::class, 'index_data'])->name('unitno_histories.index.data');
+    Route::resource('unitnohistories', UnitnoHistoryController::class);
 
     // ASSET CATEGORIES
     Route::get('asset_categories/data', [AssetCategoryController::class, 'index_data'])->name('asset_categories.index.data');
@@ -104,3 +126,6 @@ Route::middleware('auth')->group(function () {
     Route::get('unitstatuses/data', [UnitstatusController::class, 'data'])->name('unitstatuses.data');
     Route::resource('unitstatuses', UnitstatusController::class);
 });
+
+Route::get('/model_detail', [UnitmodelController::class, 'get_model_detail'])->name('get_model_detail');
+Route::get('/get_plant_groups', [PlantGroupController::class, 'get_plant_group_by_plant_type_id'])->name('get_plant_groups');

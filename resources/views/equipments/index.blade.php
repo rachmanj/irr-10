@@ -14,16 +14,12 @@
 
         <div class="card">
           <div class="card-header">
-            @if (Session::has('success'))
-              <div class="alert alert-success alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                {{ Session::get('success') }}
-              </div>
-            @endif
-            @if (auth()->user()->role === 'superadmin' || auth()->user()->role === 'admin')
+            @can('create_equipment')
               <a href="{{ route('equipments.create') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Equipment</a>
+            @endcan
+            @can('export_equipment')
               <a href="{{ route('equipments.export_excel') }}" class="btn btn-sm btn-success"><i class="fas fa-print"></i> Export to Excel</a>
-            @endif
+            @endcan
           </div> {{-- card-header --}}
 
           <div class="card-body">

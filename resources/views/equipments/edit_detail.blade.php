@@ -89,7 +89,7 @@
             </div> {{-- card-body --}}
   
             <div class="card-footer">
-              <a href="{{ route('equipments.index') }}" class="btn btn-sm btn-success"><i class="fas fa-undo"></i> Back</a>
+              <a href="{{ route('equipments.index') }}" class="btn btn-sm btn-success"><i class="fas fa-arrow-left"></i> Back</a>
               <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-save"></i> Save</button>
             </div>
           </form>
