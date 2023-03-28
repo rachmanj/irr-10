@@ -158,6 +158,9 @@ class EquipmentController extends Controller
             ->addColumn('current_project', function ($equipments) {
                 return $equipments->current_project->project_code;
             })
+            ->addColumn('asset_category', function ($equipments) {
+                return $equipments->asset_category->name;
+            })
             ->addIndexColumn()
             ->addColumn('action', 'equipments.action')
             ->rawColumns(['action'])

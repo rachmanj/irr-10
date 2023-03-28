@@ -34,6 +34,9 @@
                     <input type="text" class="search form-control" placeholder="model">
                   </td>
                   <td>
+                    <input type="text" class="search form-control" placeholder="asset category">
+                  </td>
+                  <td>
                     <input type="text" class="search form-control" placeholder="manufacture">
                   </td>
                   <td>
@@ -51,6 +54,7 @@
                   <th>No</th>
                   <th>Unit No</th>
                   <th>Model</th>
+                  <th>Asset Category</th>
                   <th>Manufacture</th>
                   <th>SN</th>
                   <th>Type</th>
@@ -93,6 +97,7 @@
           {data: 'DT_RowIndex', orderable: false, searchable: false},
           {data: 'unit_no'},
           {data: 'model'},
+          {data: 'asset_category'},
           {data: 'manufacture'},
           {data: 'serial_no'},
           {data: 'plant_type'},
