@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\Document;
 use App\Models\Equipment;
 use App\Models\HazardReport;
 use App\Models\PlantGroup;
 use App\Models\PlantType;
 use App\Models\Unitstatus;
-use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -22,6 +23,7 @@ class DashboardController extends Controller
             'plant_types' => $this->getPlantType(),
             'plant_groups' => $this->getPlantGroup(),
             'activities' => $this->getActivities(),
+            'documents_expired' => $this->getDocumentsExpired(),
         ]);
     }
 
@@ -73,12 +75,27 @@ class DashboardController extends Controller
 
     public function getActivities()
     {
-        // get recent activities limit 10
         $activities = Activity::orderBy('created_at', 'desc')
             ->limit(10)
             ->get();
 
 
         return $activities;
+    }
+
+    public function getDocumentsExpired()
+    {
+        $documents_will_expired = Document::whereNull('extended_doc_id')
+            ->whereBetween('due_date', [Carbon::now(), Carbon::now()->addMonths(2)])
+            ->get()->count();
+
+        $documents_expired = Document::whereNull('extended_doc_id')
+            ->where('due_date', '<=', Carbon::now())
+            ->get()->count();
+
+        return [
+            'documents_will_expired' => $documents_will_expired,
+            'documents_expired' => $documents_expired,
+        ];
     }
 }

@@ -15,6 +15,7 @@ use App\Http\Controllers\PlantTypeController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UnitmodelController;
 use App\Http\Controllers\UnitnoHistoryController;
@@ -132,6 +133,15 @@ Route::middleware('auth')->group(function () {
     // UNIT STATUS
     Route::get('unitstatuses/data', [UnitstatusController::class, 'data'])->name('unitstatuses.data');
     Route::resource('unitstatuses', UnitstatusController::class);
+
+    //REPORTS
+    Route::get('reports/with_overdue/data', [ReportController::class, 'document_with_overdue_data'])->name('reports.document_with_overdue_data');
+    Route::get('reports/with_overdue/data', [ReportController::class, 'document_with_overdue_data'])->name('reports.document_with_overdue_data');
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('reports/with_overdue', [ReportController::class, 'document_with_overdue'])->name('reports.document_with_overdue');
+    Route::get('reports/report1', [ReportController::class, 'report1_create'])->name('reports.report1_create');
+    Route::post('reports/report1', [ReportController::class, 'report1_display'])->name('reports.report1_display');
+    Route::get('reports/report1/data', [ReportController::class, 'report1_data'])->name('reports.report1_data');
 });
 
 Route::get('/model_detail', [UnitmodelController::class, 'get_model_detail'])->name('get_model_detail');

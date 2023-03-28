@@ -1,4 +1,4 @@
-<div class="card card-widget">
+<div class="card card-info">
     <div class="card-header border-transparent">
         <h3 class="card-title">Recent Activities</h3>
     </div>

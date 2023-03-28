@@ -14,6 +14,9 @@
     <div class="col-6">
       @include('dashboard.activities')
     </div>
+    <div class="col-6">
+      @include('dashboard.document_expired')
+    </div>
   </div>
 
   <div class="row">
@@ -26,8 +29,8 @@
   </div>
 
   <div class="row">
-      <div class="col-12">
-          @include('dashboard.by_plant_group')
-        </div>
+    <div class="col-12">
+        @include('dashboard.by_plant_group')
+    </div>
   </div>
 @endsection

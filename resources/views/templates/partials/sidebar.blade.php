@@ -31,7 +31,7 @@
           
           @include('templates.partials.menu.documents')
   
-          {{-- @include('templates.partials.menu.reports') --}}
+          @include('templates.partials.menu.reports')
   
             @include('templates.partials.menu.masterdata')
 
