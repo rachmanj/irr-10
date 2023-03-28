@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreMovingRequest;
 use App\Models\Equipment;
 use App\Models\Moving;
 use App\Models\Project;
@@ -26,7 +25,7 @@ class MovingController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $validated = $this->validate($request, [
             'ipa_date' => ['required'],
             'from_project_id' => ['required'],
             'to_project_id' => ['required'],
@@ -36,7 +35,7 @@ class MovingController extends Controller
         ]);
 
         $moving_flag = 'DRAFT' . auth()->id();
-        $moving = Moving::create(array_merge($request->validated(), [
+        $moving = Moving::create(array_merge($validated, [
             'ipa_no' => $request->ipa_no,
             'tujuan_row_2' => $request->tujuan_row_2,
             'cc_row_2' => $request->cc_row_2,
@@ -46,6 +45,10 @@ class MovingController extends Controller
         ]));
 
         $moving_id = $moving->id;
+
+        // save activity
+        $activity = app(ActivityController::class);
+        $activity->store(auth()->user()->id, 'create', 'Moving', $moving_id);
 
         return redirect()->route('moving_details.create', $moving_id);
     }
@@ -60,7 +63,7 @@ class MovingController extends Controller
 
     public function update_before_select_equipment(Request $request, $id)
     {
-        $this->validate($request, [
+        $validated = $this->validate($request, [
             'ipa_date' => ['required'],
             'from_project_id' => ['required'],
             'to_project_id' => ['required'],
@@ -70,13 +73,17 @@ class MovingController extends Controller
         ]);
 
         $moving = Moving::find($id);
-        $moving->update(array_merge($request->validated(), [
+        $moving->update(array_merge($validated, [
             'ipa_no' => $request->ipa_no,
             'tujuan_row_2' => $request->tujuan_row_2,
             'cc_row_2' => $request->cc_row_2,
             'cc_row_3' => $request->cc_row_3,
             'remarks' => $request->remarks,
         ]));
+
+        // save activity
+        $activity = app(ActivityController::class);
+        $activity->store(auth()->user()->id, 'update', 'Moving', $moving->id);
 
         return redirect()->route('moving_details.create', $id);
     }
@@ -104,7 +111,7 @@ class MovingController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
+        $validated = $this->validate($request, [
             'ipa_date' => ['required'],
             'from_project_id' => ['required'],
             'to_project_id' => ['required'],
@@ -114,7 +121,7 @@ class MovingController extends Controller
         ]);
 
         $moving = Moving::find($id);
-        $moving->update(array_merge($request->validated(), [
+        $moving->update(array_merge($validated, [
             'ipa_no' => $request->ipa_no,
             'tujuan_row_2' => $request->tujuan_row_2,
             'cc_row_2' => $request->cc_row_2,
@@ -122,12 +129,20 @@ class MovingController extends Controller
             'remarks' => $request->remarks,
         ]));
 
+        // save activity
+        $activity = app(ActivityController::class);
+        $activity->store(auth()->user()->id, 'update', 'Moving', $moving->id);
+
         return redirect()->route('movings.index')->with('success', 'Data successfully updated');
     }
 
     public function destroy(Moving $moving)
     {
         $moving->delete();
+        // save activity
+        $activity = app(ActivityController::class);
+        $activity->store(auth()->user()->id, 'delete', 'Moving', $moving->id);
+
         return redirect()->route('movings.index')->with('success', 'IPA successfully deleted');
     }
 
@@ -136,8 +151,6 @@ class MovingController extends Controller
         $movings = Moving::with('creator')->orderBy('ipa_date', 'desc')
             ->orderBy('ipa_no', 'desc')
             ->get();
-
-        // return $movings;
 
         return datatables()->of($movings)
             ->editColumn('ipa_date', function ($movings) {

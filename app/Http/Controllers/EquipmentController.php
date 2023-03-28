@@ -48,10 +48,14 @@ class EquipmentController extends Controller
             'current_project_id' => ['required'],
         ]);
 
-        Equipment::create(array_merge($validated, [
+        $equipment = Equipment::create(array_merge($validated, [
             'plant_group_id' => $request->plant_group_id,
             'created_by' => auth()->user()->id,
         ]));
+
+        // save activity
+        $activity = app(ActivityController::class);
+        $activity->store(auth()->user()->id, 'create', 'Equipment', $equipment->id);
 
         return redirect()->route('equipments.index')->with('success', 'Data successfully added');
     }
@@ -94,6 +98,10 @@ class EquipmentController extends Controller
             'updated_by' => auth()->user()->id,
         ]));
 
+        // save activity
+        $activity = app(ActivityController::class);
+        $activity->store(auth()->user()->id, 'update', 'Equipment', $equipment->id);
+
         return redirect()->route('equipments.index')->with('success', 'Data successfully updated');
     }
 
@@ -117,6 +125,10 @@ class EquipmentController extends Controller
             'bahan_bakar'   => $request->bahan_bakar,
             'remarks'       => $request->remarks,
         ]);
+
+        // save activity
+        $activity = app(ActivityController::class);
+        $activity->store(auth()->user()->id, 'update', 'Equipment', $equipment->id);
 
         return redirect()->route('equipments.index')->with('success', 'Data successfully updated');
     }

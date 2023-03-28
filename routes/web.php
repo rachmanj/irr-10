@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AssetCategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DocumentTypeController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\LoginController;
@@ -89,6 +90,12 @@ Route::middleware('auth')->group(function () {
     // UNIT NUMBER HISTORIES
     Route::get('unitnohistories/data', [UnitnoHistoryController::class, 'index_data'])->name('unitno_histories.index.data');
     Route::resource('unitnohistories', UnitnoHistoryController::class);
+
+    // DOCUMENTS
+    Route::get('documents/data', [DocumentController::class, 'index_data'])->name('documents.index.data');
+    Route::get('documents/{id}/extends', [DocumentController::class, 'extends_edit'])->name('documents.extends_edit');
+    Route::put('documents/{id}/extends', [DocumentController::class, 'extends_update'])->name('documents.extends_update');
+    Route::resource('documents', DocumentController::class);
 
     // ASSET CATEGORIES
     Route::get('asset_categories/data', [AssetCategoryController::class, 'index_data'])->name('asset_categories.index.data');

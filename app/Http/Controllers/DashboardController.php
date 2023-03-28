@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
 use App\Models\Equipment;
 use App\Models\HazardReport;
 use App\Models\PlantGroup;
@@ -20,6 +21,7 @@ class DashboardController extends Controller
             'unit_status' => $this->getUnitStatus(),
             'plant_types' => $this->getPlantType(),
             'plant_groups' => $this->getPlantGroup(),
+            'activities' => $this->getActivities(),
         ]);
     }
 
@@ -69,10 +71,14 @@ class DashboardController extends Controller
         return $plant_group;
     }
 
-    public function test()
+    public function getActivities()
     {
-        $test = $this->getPlantType();
+        // get recent activities limit 10
+        $activities = Activity::orderBy('created_at', 'desc')
+            ->limit(10)
+            ->get();
 
-        return $test;
+
+        return $activities;
     }
 }

@@ -25,22 +25,27 @@ class DocumentController extends Controller
         return view('documents.create', compact('equipments', 'doctypes', 'suppliers'));
     }
 
-    public function store(StoreDocumentRequest $request)
+    public function store(Request $request)
     {
-        if ($request->due_date) {
-            $extended_status = 'REMAINDME';
-        } else {
-            $extended_status = null;
-        }
+        $validated = $this->validate($request, [
+            'equipment_id' => ['required'],
+            'document_type_id' => ['required'],
+            'document_no' => ['required'],
+            'document_date' => ['required'],
+        ]);
 
-        Document::create(array_merge($request->validated(), [
+        $document = Document::create(array_merge($validated, [
             'due_date' => $request->due_date,
             'supplier_id' => $request->supplier_id,
             'amount' => $request->amount,
             'remarks' => $request->remarks,
-            'extended_status' => $extended_status,
             'user_id' => auth()->id()
         ]));
+
+        // save activity
+        $activity = app(ActivityController::class);
+        $activity->store(auth()->user()->id, 'create', 'Document', $document->id);
+
         return redirect()->route('documents.index')->with('success', 'Data succesfully added');
     }
 
@@ -53,14 +58,26 @@ class DocumentController extends Controller
         return view('documents.edit', compact('document', 'equipments', 'doctypes', 'suppliers'));
     }
 
-    public function update(StoreDocumentRequest $request, Document $document)
+    public function update(Request $request, Document $document)
     {
-        $document->update(array_merge($request->validated(), [
+        $validated = $this->validate($request, [
+            'equipment_id' => ['required'],
+            'document_type_id' => ['required'],
+            'document_no' => ['required'],
+            'document_date' => ['required'],
+        ]);
+
+        $document->update(array_merge($validated, [
             'due_date' => $request->due_date,
             'supplier_id' => $request->supplier_id,
             'amount' => $request->amount,
             'remarks' => $request->remarks,
         ]));;
+
+        // save activity
+        $activity = app(ActivityController::class);
+        $activity->store(auth()->user()->id, 'update', 'Document', $document->id);
+
         return redirect()->route('documents.index')->with('success', 'Data succesfully updated');
     }
 

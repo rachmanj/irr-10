@@ -23,14 +23,13 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           
           {{-- @include('dashboard.index') --}}
+          @include('templates.partials.menu.dashboard')
   
           @include('templates.partials.menu.equipment')
   
           {{-- @include('templates.partials.menu.movings') --}}
           
-          {{-- @if (auth()->user()->role === 'superadmin' || auth()->user()->role === 'admin' || auth()->user()->role === 'admin_ga') --}}
-            {{-- @include('templates.partials.menu.documents') --}}
-          {{-- @endif --}}
+          @include('templates.partials.menu.documents')
   
           {{-- @include('templates.partials.menu.reports') --}}
   
