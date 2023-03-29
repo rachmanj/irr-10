@@ -7,36 +7,36 @@
             <table class="table m-0 table-striped">
                 <thead>
                     <tr>
-                        <th>Plant Group Name</th>
-                        @foreach ($projects as $project)
-                            <th class="text-right">{{ $project->project_code }}</th>
+                        <th>Projects</th>
+                        @foreach ($plant_groups as $group)
+                            <th class="text-right">{{ $group->id }}</th>
                         @endforeach
-                        <th class="text-right">TOTAL</th>
+                        <th class="text-right">Total</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($plant_groups as $group)
+                    @foreach ($projects as $project)
                         <tr>
                             <td>
-                                <strong>{{ $group->name }}</strong>
+                                <strong>{{ $project->project_code }}</strong>
                             </td>
-                            @foreach ($projects as $project)
+                            @foreach ($plant_groups as $group)
                                 <td class="text-right">
                                     {{ $equipments->where('current_project_id', $project->id)->where('plant_group_id', $group->id)->count() }}
                                 </td>
                             @endforeach
                             <td class="text-right">
-                                <strong>{{ $equipments->where('plant_group_id', $group->id)->count() }}</strong>
+                                <strong>{{ $equipments->where('current_project_id', $project->id)->count() }}</strong>
                             </td>
                         </tr>
                     @endforeach
                     <tr>
                         <td>
-                            <strong>TOTAL</strong>
+                            <strong>Total</strong>
                         </td>
-                        @foreach ($projects as $project)
+                        @foreach ($plant_groups as $group)
                         <td class="text-right">
-                            <strong>{{ $equipments->where('current_project_id', $project->id)->count() }}</strong>
+                            <strong>{{ $equipments->where('plant_group_id', $group->id)->count() }}</strong>
                         </td>
                         @endforeach
                         <td class="text-right">
@@ -45,6 +45,13 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="col-12">
+            @foreach ($plant_groups as $group)
+               <strong>{{ $group->id }}</strong>: {{ $group->name }}. 
+            @endforeach
         </div>
     </div>
 </div>

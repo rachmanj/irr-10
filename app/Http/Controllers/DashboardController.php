@@ -48,7 +48,10 @@ class DashboardController extends Controller
             'unitstatus_id',
             'plant_type_id',
             'plant_group_id'
-        )->get();
+        )
+            ->where('unitstatus_id', '<>', 4)
+            ->get();
+
         return $equipments;
     }
 
