@@ -29,6 +29,9 @@
                 <li><a href="{{ route('reports.document_with_overdue') }}">Documents yang akan jatuh tempo</a></li>
               </ol>
               <li><b>Movings</b></li>
+              <ol>
+                <li><a href="{{ route('reports.summary_ipa.index') }}">Summary IPA</a></li>
+              </ol>
             </ol>
           </div> {{-- card-body --}}
         </div> {{-- card --}}

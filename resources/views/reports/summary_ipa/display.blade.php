@@ -15,15 +15,22 @@
         <div class="card">
           <div class="card-header">
             <h3 class="card-title">{{ $report_name }}</h3>
-            <a href="{{ route('reports.index') }}" class="btn btn-sm btn-primary float-right"><i class="fas fa-arrow-left"></i> Back</a>
+            {{-- a as button --}}
+            <a href="{{ route('reports.index') }}" class="btn btn-sm btn-primary float-right mx-2"><i class="fas fa-arrow-left"></i> Back</a>
+            <form action="{{ route('reports.summary_ipa.export') }}" method="POST" class="float-right">
+              @csrf
+              <input type="hidden" name="date" value="{{ $date }}">
+              <button type="submit" class="btn btn-sm btn-warning float-right"><i class="fas fa-excel"></i> Export to Excel</button>
+            </form>
           </div> {{-- card-header --}}
 
           <div class="card-header">
-            <div class="col-3">
-              <form action="{{ route('reports.report1_display') }}" method="POST">
+            <div class="col-6">
+              <form action="{{ route('reports.summary_ipa.display') }}" method="POST">
                 @csrf
                 <div class="input-group input-group-sm">
-                  <input type="month" value="{{ $date }}" name="date" class="form-control">
+                  <label for="date" class="form-label">Select Month</label>
+                  <input type="month" value="{{ $date }}" name="date" class="form-control ml-3" placeholder="select month">
                   <span class="input-group-append">
                     <button type="submit" class="btn btn-info btn-flat">submit</button>
                   </span>
@@ -32,24 +39,28 @@
             </div>
           </div>
           <div class="card-body">
-            <table class="table table-head-fixed text-nowrap table-striped table-bordered" id="report1">
+            <table class="table table-head-fixed text-nowrap table-striped table-bordered" id="movings">
               <thead>
                 <tr>
                   <th style="width: 10px">#</th>
-                  <th>Unit No</th>
-                  <th>Model</th>
-                  <th>Activation Date</th>
-                  <th>Project</th>
+                  <th>IPA No</th>
+                  <th>Date</th>
+                  <th>From | To</th>
+                  <th>Equipments</th>
                 </tr>
               </thead>
               <tbody>
-                  @foreach ($equipments as $item)
+                  @foreach ($movings as $item)
                     <tr>
                       <td>{{ $loop->iteration }}</td>
-                      <td>{{ $item->unit_no }}</td>
-                      <td>{{ $item->unitmodel->model_no }}</td>
-                      <td>{{ date('d-M-Y', strtotime($item->active_date)) }}</td>
-                      <td>{{ $item->current_project->project_code }}</td>
+                      <td>{{ $item->ipa_no }}</td>
+                      <td>{{ date('d-M-Y', strtotime($item->ipa_date)) }}</td>
+                      <td>{{ $item->from_project->project_code . " | " . $item->to_project->project_code  }}</td>
+                      <td>
+                        @foreach ($item->moving_details as $detail)
+                          <button class="btn btn-outline-success btn-sm" style="pointer-events: none">{{ $detail->equipment->unit_no }}</button>
+                        @endforeach
+                      </td>
                     </tr>
                   @endforeach   
               </tbody>
@@ -78,7 +89,7 @@
 
 <script>
   $(document).ready(function() {
-    $('#report1').DataTable();
+    $('#movings').DataTable();
   });
 </script>
 @endsection

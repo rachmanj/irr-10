@@ -18,11 +18,12 @@
             <a href="{{ route('reports.index') }}" class="btn btn-sm btn-primary float-right"><i class="fas fa-arrow-left"></i> Back</a>
           </div> {{-- card-header --}}
           <div class="card-header">
-            <div class="col-3">
-              <form action="{{ route('reports.report1_display') }}" method="POST">
+            <div class="col-6">
+              <form action="{{ route('reports.summary_ipa.display') }}" method="POST">
                 @csrf
                 <div class="input-group input-group-sm">
-                  <input type="month" name="date" class="form-control" placeholder="select month">
+                  <label for="date" class="form-label">Select Month</label>
+                  <input type="month" name="date" class="form-control ml-3" placeholder="select month">
                   <span class="input-group-append">
                     <button type="submit" class="btn btn-info btn-flat">submit</button>
                   </span>

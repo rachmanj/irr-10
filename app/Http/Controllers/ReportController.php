@@ -71,16 +71,16 @@ class ReportController extends Controller
             ->toJson();
     }
 
-    public function report1_data($date)
-    {
-        $list = Equipment::whereMonth('active_date', $date)
-            ->whereYear('active_date', $date)
-            ->get();
+    // public function report1_data($date)
+    // {
+    //     $list = Equipment::whereMonth('active_date', $date)
+    //         ->whereYear('active_date', $date)
+    //         ->get();
 
-        return datatables()->of($list)
-            ->addIndexColumn()
-            ->addColumn('action', 'reports.report1.action')
-            ->rawColumns(['action'])
-            ->toJson();
-    }
+    //     return datatables()->of($list)
+    //         ->addIndexColumn()
+    //         ->addColumn('action', 'reports.report1.action')
+    //         ->rawColumns(['action'])
+    //         ->toJson();
+    // }
 }
