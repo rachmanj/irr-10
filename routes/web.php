@@ -15,6 +15,7 @@ use App\Http\Controllers\PlantTypeController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ReportActiveStatusController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReportSummaryIpaController;
 use App\Http\Controllers\RoleController;
@@ -148,6 +149,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/summary_ipa', [ReportSummaryIpaController::class, 'index'])->name('summary_ipa.index');
         Route::post('/summary_ipa', [ReportSummaryIpaController::class, 'display'])->name('summary_ipa.display');
         Route::post('/summary_ipa/export', [ReportSummaryIpaController::class, 'export'])->name('summary_ipa.export');
+        //active status
+        Route::get('/active_status', [ReportActiveStatusController::class, 'index'])->name('active_status.index');
+        Route::get('/active_status/data', [ReportActiveStatusController::class, 'data'])->name('active_status.data');
+        Route::get('/active_status/export', [ReportActiveStatusController::class, 'export'])->name('active_status.export');
     });
 });
 
