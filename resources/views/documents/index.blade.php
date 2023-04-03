@@ -14,12 +14,6 @@
 
         <div class="card">
           <div class="card-header">
-            @if (Session::has('success'))
-              <div class="alert alert-success alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                {{ Session::get('success') }}
-              </div>
-            @endif
             <a href="{{ route('documents.create') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Document</a>
           </div> {{-- card-header --}}
 

@@ -27,20 +27,34 @@ class DocumentController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $this->validate($request, [
+        $this->validate($request, [
             'equipment_id' => ['required'],
             'document_type_id' => ['required'],
             'document_no' => ['required'],
             'document_date' => ['required'],
         ]);
 
-        $document = Document::create(array_merge($validated, [
-            'due_date' => $request->due_date,
-            'supplier_id' => $request->supplier_id,
-            'amount' => $request->amount,
-            'remarks' => $request->remarks,
-            'user_id' => auth()->id()
-        ]));
+        // if has filename
+        if ($request->filename) {
+            $file = $request->file('filename');
+            $filename = rand() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('document_upload'), $filename);
+        } else {
+            $filename = null;
+        }
+
+        $document = new Document();
+        $document->equipment_id = $request->equipment_id;
+        $document->document_type_id = $request->document_type_id;
+        $document->document_no = $request->document_no;
+        $document->document_date = $request->document_date;
+        $document->due_date = $request->due_date;
+        $document->supplier_id = $request->supplier_id;
+        $document->amount = $request->amount;
+        $document->remarks = $request->remarks;
+        $document->filename = $filename;
+        $document->user_id = auth()->id();
+        $document->save();
 
         // save activity
         $activity = app(ActivityController::class);
@@ -67,12 +81,24 @@ class DocumentController extends Controller
             'document_date' => ['required'],
         ]);
 
-        $document->update(array_merge($validated, [
-            'due_date' => $request->due_date,
-            'supplier_id' => $request->supplier_id,
-            'amount' => $request->amount,
-            'remarks' => $request->remarks,
-        ]));;
+        // if has filename
+        if ($request->hasFile('filename')) {
+            $file = $request->file('filename');
+            $filename = rand() . '-' . $file->getClientOriginalName();
+            $file->move(public_path('document_upload'), $filename);
+            $document->filename = $filename;
+        }
+
+        $document->equipment_id = $request->equipment_id;
+        $document->document_type_id = $request->document_type_id;
+        $document->document_no = $request->document_no;
+        $document->document_date = $request->document_date;
+        $document->due_date = $request->due_date;
+        $document->supplier_id = $request->supplier_id;
+        $document->amount = $request->amount;
+        $document->remarks = $request->remarks;
+
+        $document->save();
 
         // save activity
         $activity = app(ActivityController::class);

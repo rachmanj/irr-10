@@ -15,10 +15,10 @@
 
           <div class="card-header">
             <h3 class="card-title">Edit Document Data</h3>
-            <a href="{{ route('documents.index') }}" class="btn btn-sm btn-primary float-right"><i class="fas fa-undo"></i> Back</a>
+            <a href="{{ route('documents.index') }}" class="btn btn-sm btn-primary float-right"><i class="fas fa-arrow-left"></i> Back</a>
           </div> {{-- card-header --}}
 
-          <form action="{{ route('documents.update', $document->id) }}" method="POST">
+          <form action="{{ route('documents.update', $document->id) }}" method="POST" enctype="multipart/form-data">
             @csrf @method('PUT')
             <div class="card-body">
 
@@ -118,10 +118,18 @@
               </div>
 
               <div class="row">
-               <div class="col-12">
+               <div class="col-6">
                 <div class="form-group">
                   <label for="remarks">Remarks</label>
                  <textarea name="remarks" class="form-control" id="remarks" rows="2">{{ old('remarks', $document->remarks) }}</textarea>
+                </div>
+               </div>
+               <div class="col-6">
+                <div class="form-group">
+                  <label for="filename">Upload File</label>
+                  <div class="custom-file">
+                    <input type="file" name="filename" id="filename" class="form-control">
+                  </div>
                 </div>
                </div>
               </div> {{-- row --}}
@@ -129,7 +137,7 @@
             </div> {{-- card-body --}}
   
             <div class="card-footer">
-              <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+              <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-save"></i>  Save</button>
             </div>
           </form>
 

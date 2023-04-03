@@ -205,6 +205,13 @@ class EquipmentController extends Controller
             ->get();
 
         return datatables()->of($documents)
+            ->editColumn('document_no', function ($document) {
+                if ($document->filename) {
+                    return $document->document_no . ' <a href="' . asset('document_upload/' . $document->filename) . '" target="_blank"  class="btn btn-xs btn-success"><i class="fas fa-file" ></i></a>';
+                } else {
+                    return $document->document_no;
+                }
+            })
             ->editColumn('document_date', function ($documents) {
                 return date('d-M-Y', strtotime($documents->document_date));
             })
@@ -219,7 +226,7 @@ class EquipmentController extends Controller
             })
             ->addIndexColumn()
             ->addColumn('action', 'equipments.tabs.legals_action')
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'document_no'])
             ->toJson();
     }
 
@@ -235,6 +242,13 @@ class EquipmentController extends Controller
             ->get();
 
         return datatables()->of($documents)
+            ->editColumn('document_no', function ($document) {
+                if ($document->filename) {
+                    return $document->document_no . ' <a href="' . asset('document_upload/' . $document->filename) . '" target="_blank"  class="btn btn-xs btn-success"><i class="fas fa-file" ></i></a>';
+                } else {
+                    return $document->document_no;
+                }
+            })
             ->editColumn('document_date', function ($documents) {
                 return date('d-M-Y', strtotime($documents->document_date));
             })
@@ -249,7 +263,7 @@ class EquipmentController extends Controller
             })
             ->addIndexColumn()
             ->addColumn('action', 'equipments.tabs.legals_action')
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'document_no'])
             ->toJson();
     }
 
@@ -263,6 +277,13 @@ class EquipmentController extends Controller
             ->get();
 
         return datatables()->of($documents)
+            ->editColumn('document_no', function ($document) {
+                if ($document->filename) {
+                    return $document->document_no . ' <a href="' . asset('document_upload/' . $document->filename) . '" target="_blank"  class="btn btn-xs btn-success"><i class="fas fa-file" ></i></a>';
+                } else {
+                    return $document->document_no;
+                }
+            })
             ->editColumn('document_date', function ($documents) {
                 return date('d-M-Y', strtotime($documents->document_date));
             })
@@ -277,7 +298,7 @@ class EquipmentController extends Controller
             })
             ->addIndexColumn()
             ->addColumn('action', 'equipments.tabs.legals_action')
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'document_no'])
             ->toJson();
     }
 
@@ -303,6 +324,13 @@ class EquipmentController extends Controller
             ->get();
 
         return datatables()->of($documents)
+            ->editColumn('document_no', function ($document) {
+                if ($document->filename) {
+                    return $document->document_no . ' <a href="' . asset('document_upload/' . $document->filename) . '" target="_blank"  class="btn btn-xs btn-success"><i class="fas fa-file" ></i></a>';
+                } else {
+                    return $document->document_no;
+                }
+            })
             ->editColumn('document_date', function ($documents) {
                 return date('d-M-Y', strtotime($documents->document_date));
             })
@@ -324,7 +352,7 @@ class EquipmentController extends Controller
             })
             ->addIndexColumn()
             ->addColumn('action', 'equipments.tabs.legals_action')
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'document_no'])
             ->toJson();
     }
 
