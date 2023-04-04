@@ -15,7 +15,7 @@
         <div class="card">
 
           <div class="card-header">
-            <h3 class="card-title">Equipment Data</h3>
+            <a href="#"><strong>Equipment Data</strong></a> | <a href="{{ route('equipments.photos.index', $equipment->id) }}">Photos</a>
             <a href="{{ route('equipments.index') }}" class="btn btn-sm btn-primary float-right"><i class="fas fa-arrow-left"></i>  Back</a>
           </div> {{-- card-header --}}
             

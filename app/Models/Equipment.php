@@ -92,6 +92,11 @@ class Equipment extends Model
         ]);
     }
 
+    public function photos()
+    {
+        return $this->hasMany(EquipmentPhoto::class);
+    }
+
     protected static function boot()
     {
         parent::boot();

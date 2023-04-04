@@ -62,42 +62,53 @@ Route::middleware('auth')->group(function () {
     });
 
     // EQUIPMENTS
-    Route::get('equipments/data', [EquipmentController::class, 'index_data'])->name('equipments.index.data');
-    Route::get('equipments/{equipment}/movings/data', [EquipmentController::class, 'equipment_movings_data'])->name('equipments.movings.data');
-    Route::get('equipments/{equipment}/changes/data', [EquipmentController::class, 'equipment_changes_data'])->name('equipments.changes.data');
-    Route::get('equipments/{equipment}/legals/data', [EquipmentController::class, 'equipment_legals_data'])->name('equipments.legals.data');
-    Route::get('equipments/{equipment}/acquisitions/data', [EquipmentController::class, 'equipment_acquisitions_data'])->name('equipments.acquisitions.data');
-    Route::get('equipments/{equipment}/insurance/data', [EquipmentController::class, 'equipment_insurance_data'])->name('equipments.insurance.data');
-    Route::get('equipments/{equipment}/others/data', [EquipmentController::class, 'equipment_others_data'])->name('equipments.others.data');
-    Route::get('equipments/{equipment}/edit_detail', [EquipmentController::class, 'edit_detail'])->name('equipments.edit_detail');
-    Route::put('equipments/{equipment}/update_detail', [EquipmentController::class, 'update_detail'])->name('equipments.update_detail');
-    Route::get('/equipments/export_excel', [EquipmentController::class, 'equipment_export_excel'])->name('equipments.export_excel');
+    Route::prefix('equipments')->name('equipments.')->group(function () {
+        Route::get('/data', [EquipmentController::class, 'index_data'])->name('index.data');
+        Route::get('/{equipment}/movings/data', [EquipmentController::class, 'equipment_movings_data'])->name('movings.data');
+        Route::get('/{equipment}/changes/data', [EquipmentController::class, 'equipment_changes_data'])->name('changes.data');
+        Route::get('/{equipment}/legals/data', [EquipmentController::class, 'equipment_legals_data'])->name('legals.data');
+        Route::get('/{equipment}/acquisitions/data', [EquipmentController::class, 'equipment_acquisitions_data'])->name('acquisitions.data');
+        Route::get('/{equipment}/insurance/data', [EquipmentController::class, 'equipment_insurance_data'])->name('insurance.data');
+        Route::get('/{equipment}/others/data', [EquipmentController::class, 'equipment_others_data'])->name('others.data');
+        Route::get('/{equipment}/edit_detail', [EquipmentController::class, 'edit_detail'])->name('edit_detail');
+        Route::put('/{equipment}/update_detail', [EquipmentController::class, 'update_detail'])->name('update_detail');
+        Route::get('/export_excel', [EquipmentController::class, 'equipment_export_excel'])->name('export_excel');
+        // PHOTOS
+        Route::get('/{equipment_id}/photos', [EquipmentController::class, 'photos_index'])->name('photos.index');
+        Route::post('/{equipment_id}/photos', [EquipmentController::class, 'photos_store'])->name('photos.store');
+        Route::delete('/photos/{photo_id}', [EquipmentController::class, 'photos_destroy'])->name('photos.destroy');
+    });
     Route::resource('equipments', EquipmentController::class);
 
     // MOVINGS
-    Route::get('movings/data', [MovingController::class, 'index_data'])->name('movings.index.data');
-    Route::get('movings/{moving}/print_pdf', [MovingController::class, 'print_pdf'])->name('movings.print_pdf');
-    Route::get('movings/{moving}/print2_pdf', [MovingController::class, 'print2_pdf'])->name('movings.print2_pdf');
-    Route::get('movings/{moving}/before_select', [MovingController::class, 'edit_before_select_equipment'])->name('movings.before_select_equipment');
-    Route::put('movings/{moving}/before_select', [MovingController::class, 'update_before_select_equipment'])->name('movings.update_before_select_equipment');
+    Route::prefix('movings')->name('movings.')->group(function () {
+        Route::get('/data', [MovingController::class, 'index_data'])->name('index.data');
+        Route::get('/{moving}/print_pdf', [MovingController::class, 'print_pdf'])->name('print_pdf');
+        Route::get('/{moving}/print2_pdf', [MovingController::class, 'print2_pdf'])->name('print2_pdf');
+        Route::get('/{moving}/before_select', [MovingController::class, 'edit_before_select_equipment'])->name('before_select_equipment');
+        Route::put('/{moving}/before_select', [MovingController::class, 'update_before_select_equipment'])->name('update_before_select_equipment');
+    });
     Route::resource('movings', MovingController::class);
 
-    Route::get('moving_details/incart/data', [MovingDetailController::class, 'unit_incart_data'])->name('moving_details.unit_incart.data');
-    Route::get('moving_details/{from_project_id}/data', [MovingDetailController::class, 'available_unit_data'])->name('moving_details.available_unit.data');
-
-    Route::get('moving_details/{moving_id}/create', [MovingDetailController::class, 'create'])->name('moving_details.create');
-    Route::post('moving_details', [MovingDetailController::class, 'store'])->name('moving_details.store');
-    Route::patch('moving_details/{equipment_id}/add_tocart', [MovingDetailController::class, 'add_tocart'])->name('moving_details.add_tocart');
-    Route::patch('moving_details/{equipment_id}/remove_fromcart', [MovingDetailController::class, 'remove_fromcart'])->name('moving_details.remove_fromcart');
+    Route::prefix('moving_details')->name('moving_details.')->group(function () {
+        Route::get('/incart/data', [MovingDetailController::class, 'unit_incart_data'])->name('unit_incart.data');
+        Route::get('/{from_project_id}/data', [MovingDetailController::class, 'available_unit_data'])->name('available_unit.data');
+        Route::get('/{moving_id}/create', [MovingDetailController::class, 'create'])->name('create');
+        Route::post('/', [MovingDetailController::class, 'store'])->name('store');
+        Route::patch('/{equipment_id}/add_tocart', [MovingDetailController::class, 'add_tocart'])->name('add_tocart');
+        Route::patch('/{equipment_id}/remove_fromcart', [MovingDetailController::class, 'remove_fromcart'])->name('remove_fromcart');
+    });
 
     // UNIT NUMBER HISTORIES
     Route::get('unitnohistories/data', [UnitnoHistoryController::class, 'index_data'])->name('unitno_histories.index.data');
     Route::resource('unitnohistories', UnitnoHistoryController::class);
 
     // DOCUMENTS
-    Route::get('documents/data', [DocumentController::class, 'index_data'])->name('documents.index.data');
-    Route::get('documents/{id}/extends', [DocumentController::class, 'extends_edit'])->name('documents.extends_edit');
-    Route::put('documents/{id}/extends', [DocumentController::class, 'extends_update'])->name('documents.extends_update');
+    Route::prefix('documents')->name('documents.')->group(function () {
+        Route::get('/data', [DocumentController::class, 'index_data'])->name('index.data');
+        Route::get('/{id}/extends', [DocumentController::class, 'extends_edit'])->name('extends_edit');
+        Route::put('/{id}/extends', [DocumentController::class, 'extends_update'])->name('extends_update');
+    });
     Route::resource('documents', DocumentController::class);
 
     // ASSET CATEGORIES

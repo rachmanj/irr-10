@@ -11,9 +11,11 @@
                     @if ($activity->model === "Equipment")
                         {{ ' Equipment ' . \App\Models\Equipment::find($activity->model_id)->unit_no }}
                     @elseif ($activity->model === "Moving")
-                        {{  \App\Models\Moving::find($activity->model_id)->ipa_no }}
+                        {{ 'IPA ' . \App\Models\Moving::find($activity->model_id)->ipa_no }}
                     @elseif ($activity->model === "Document")
                         {{ \App\Models\Document::find($activity->model_id)->document_type->name . ' ' . \App\Models\Document::find($activity->model_id)->document_no }}
+                    @elseif ($activity->model === "Photo")
+                        {{ 'Photo of ' . \App\Models\Equipment::find($activity->model_id)->unit_no }}
                     @endif
                 @elseif ($activity->activity_type === "update")
                 <strong>{{ $activity->user->name }}</strong> updated {{ $activity->model }} 
@@ -28,6 +30,8 @@
                         {{ \App\Models\Equipment::find($activity->model_id)->unit_no }}
                     @elseif ($activity->model === "Document")
                         {{ \App\Models\Document::find($activity->model_id)->document_type->name . ' ' . \App\Models\Document::find($activity->model_id)->document_no }}
+                    @elseif ($activity->model === "Photo")
+                        {{ \App\Models\Equipment::find($activity->model_id)->unit_no }}
                     @endif
                 @endif
                 {{ ' about ' . $activity->created_at->diffForHumans() }}

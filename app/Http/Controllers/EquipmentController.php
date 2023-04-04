@@ -15,6 +15,7 @@ use App\Models\Unitstatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Exports\EquipmentsExport;
+use App\Models\EquipmentPhoto;
 use Maatwebsite\Excel\Facades\Excel;
 
 class EquipmentController extends Controller
@@ -138,6 +139,51 @@ class EquipmentController extends Controller
         $equipment->delete();
 
         return redirect()->route('equipments.index')->with('success', 'Data successfully deleted');
+    }
+
+    public function photos_index($equipment_id)
+    {
+        $equipment = Equipment::find($equipment_id);
+        $photos = EquipmentPhoto::where('equipment_id', $equipment_id)->get();
+
+        return view('equipments.photos', compact('equipment', 'photos'));
+    }
+
+    public function photos_store(Request $request, $equipment_id)
+    {
+        $request->validate([
+            'file_upload' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:1028'],
+        ]);
+
+        $file = $request->file('file_upload');
+        $filename = rand() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('images'), $filename);
+
+        $photo = EquipmentPhoto::create([
+            'equipment_id' => $equipment_id,
+            'filename' => $filename,
+            'description' => $request->description,
+            'created_by' => auth()->user()->id,
+        ]);
+
+        // save activity
+        $activity = app(ActivityController::class);
+        $activity->store(auth()->user()->id, 'create', 'Photo', $photo->id);
+
+        return redirect()->route('equipments.photos.index', $equipment_id)->with('success', 'Data successfully added');
+    }
+
+    public function photos_destroy($photo_id)
+    {
+        $photo = EquipmentPhoto::find($photo_id);
+        $equipment_id = $photo->equipment_id;
+        $photo->delete();
+
+        // save activity
+        $activity = app(ActivityController::class);
+        $activity->store(auth()->user()->id, 'delete', 'Photo', $photo->id);
+
+        return redirect()->route('equipments.photos.index', $equipment_id)->with('success', 'Data successfully deleted');
     }
 
     public function index_data()
