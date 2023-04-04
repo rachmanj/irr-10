@@ -9,77 +9,68 @@
 @endsection
 
 @section('content')
-    <div class="row">
-      <div class="col-12">
+  <div class="row">
+    <div class="col-12">
+
         <div class="card">
 
           <div class="card-header">
             <h3 class="card-title">Equipment Data</h3>
             <a href="{{ route('equipments.index') }}" class="btn btn-sm btn-primary float-right"><i class="fas fa-arrow-left"></i>  Back</a>
           </div> {{-- card-header --}}
-
-          <form>
             
-            <div class="card-body">
-
+          <div class="card-body">
               @include('equipments.show_info')
+          </div> {{-- card-body --}}
 
-              <hr>
-              <div class="card card-primary card-outline card-outline-tabs">
-                <div class="card-header p-0 border-bottom-0">
-                  <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
-                    <li class="nav-item">
-                      <a class="nav-link active" id="custom-tabs-four-movings-tab" data-toggle="pill" href="#custom-tabs-four-movings" role="tab" aria-controls="custom-tabs-four-movings" aria-selected="true">Movings</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="custom-tabs-four-acquisitions-tab" data-toggle="pill" href="#custom-tabs-four-acquisitions" role="tab" aria-controls="custom-tabs-four-acquisitions" aria-selected="false">Acquisitions</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="custom-tabs-four-legals-tab" data-toggle="pill" href="#custom-tabs-four-legals" role="tab" aria-controls="custom-tabs-four-legals" aria-selected="false">Legal</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="custom-tabs-four-insurance-tab" data-toggle="pill" href="#custom-tabs-four-insurance" role="tab" aria-controls="custom-tabs-four-insurance" aria-selected="false">Insurance</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="custom-tabs-four-others-tab" data-toggle="pill" href="#custom-tabs-four-others" role="tab" aria-controls="custom-tabs-four-others" aria-selected="false">Others</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="custom-tabs-four-changes-tab" data-toggle="pill" href="#custom-tabs-four-changes" role="tab" aria-controls="custom-tabs-four-changes" aria-selected="false">Changes</a>
-                    </li>
-                  </ul>
-                </div>
-                <div class="card-body">
-                  <div class="tab-content" id="custom-tabs-four-tabContent">
-
-                    @include('equipments.tabs.movings')
-
-                    @include('equipments.tabs.acquisition')
-                    
-                    @include('equipments.tabs.legals')
-                    
-                    @include('equipments.tabs.insurance')
-                    
-                    @include('equipments.tabs.others')
-
-                    @include('equipments.tabs.changes')
-
-                  </div>
-                </div>
-
-              </div> 
+        </div>{{-- card --}}
               
-            </div> {{-- card-body --}}
-  
-            <div class="card-footer">
-              <a href="{{ route('equipments.index') }}" class="btn btn-sm btn-primary"><i class="fas fa-undo"></i>  Back</a>
+        <div class="card card-primary card-outline card-outline-tabs">
+
+          <div class="card-header p-0 border-bottom-0">
+            <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="custom-tabs-four-movings-tab" data-toggle="pill" href="#custom-tabs-four-movings" role="tab" aria-controls="custom-tabs-four-movings" aria-selected="true">Movings</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="custom-tabs-four-acquisitions-tab" data-toggle="pill" href="#custom-tabs-four-acquisitions" role="tab" aria-controls="custom-tabs-four-acquisitions" aria-selected="false">Acquisitions</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="custom-tabs-four-legals-tab" data-toggle="pill" href="#custom-tabs-four-legals" role="tab" aria-controls="custom-tabs-four-legals" aria-selected="false">Legal</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="custom-tabs-four-insurance-tab" data-toggle="pill" href="#custom-tabs-four-insurance" role="tab" aria-controls="custom-tabs-four-insurance" aria-selected="false">Insurance</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="custom-tabs-four-others-tab" data-toggle="pill" href="#custom-tabs-four-others" role="tab" aria-controls="custom-tabs-four-others" aria-selected="false">Others</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="custom-tabs-four-changes-tab" data-toggle="pill" href="#custom-tabs-four-changes" role="tab" aria-controls="custom-tabs-four-changes" aria-selected="false">Changes</a>
+              </li>
+            </ul>
+          </div> {{-- card header --}}
+
+          <div class="card-body">
+            <div class="tab-content" id="custom-tabs-four-tabContent">
+
+              @include('equipments.tabs.movings')
+
+              @include('equipments.tabs.acquisition')
+              
+              @include('equipments.tabs.legals')
+              
+              @include('equipments.tabs.insurance')
+              
+              @include('equipments.tabs.others')
+
+              @include('equipments.tabs.changes')
+
             </div>
+          </div> {{-- card-body --}}
+        </div> {{-- card --}}
 
-
-          </form>
-
-        </div> {{--  card --}}
-      </div>
-    </div>
+    </div> {{-- col 12 --}}
+  </div> {{-- row --}}
 @endsection
 
 @section('styles')

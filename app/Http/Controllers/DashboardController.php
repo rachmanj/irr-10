@@ -57,7 +57,9 @@ class DashboardController extends Controller
 
     public function getUnitStatus()
     {
-        $unit_status = Unitstatus::select('id', 'name')->get();
+        $unit_status = Unitstatus::select('id', 'name')
+            ->where('id', '<>', 4)
+            ->get();
 
         return $unit_status;
     }
@@ -71,7 +73,7 @@ class DashboardController extends Controller
 
     public function getPlantGroup()
     {
-        $plant_group = PlantGroup::select('id', 'name')->get();
+        $plant_group = PlantGroup::select('id', 'name')->orderBy('name', 'asc')->get();
 
         return $plant_group;
     }

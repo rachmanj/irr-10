@@ -1,6 +1,6 @@
 <div class="card card-info">
     <div class="card-header border-transparent">
-        <h3 class="card-title">Summary by Plant Group</h3>
+        <h3 class="card-title">Summary by Plant Group <small>(excl SOLD)</small></h3>
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
