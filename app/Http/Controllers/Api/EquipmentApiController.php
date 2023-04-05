@@ -5,11 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EquipmentResource;
 use App\Models\Equipment;
-use App\Models\Project;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class ApiEquipmentController extends Controller
+class EquipmentApiController extends Controller
 {
     public function index()
     {
