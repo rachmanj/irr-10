@@ -112,11 +112,9 @@
                   <div class="form-group">
                     <label>Plant Group</label>
                     <select name="plant_group_id" id="plant_group_id" class="form-control select2bs4 @error('plant_group_id') is-invalid @enderror">
-                      @if ($equipment->plant_group_id)
-                        <option value="{{ $equipment->plant_group_id }}">{{ $equipment->plant_group->name }}</option>
-                      @else
-                        <option value="">-- select plant group --</option>
-                      @endif
+                        @foreach ($plant_groups as $item)
+                        <option value="{{ $item->id }}" {{ $equipment->plant_group_id == $item->id ? "selected" : "" }}>{{ $item->name }}</option>
+                        @endforeach
                     </select>
                     @error('plant_group_id')
                       <div class="invalid-feedback">

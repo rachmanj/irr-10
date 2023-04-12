@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Exports\EquipmentsExport;
 use App\Models\EquipmentPhoto;
+use App\Models\PlantGroup;
 use Maatwebsite\Excel\Facades\Excel;
 
 class EquipmentController extends Controller
@@ -73,10 +74,11 @@ class EquipmentController extends Controller
         $projects   = Project::orderBy('project_code', 'asc')->get();
         $unitmodels = Unitmodel::with('manufacture')->orderBy('model_no', 'asc')->get();
         $plant_types = PlantType::orderby('name', 'asc')->get();
-        $asset_categories = AssetCategory::orderBy('name')->get();
+        $asset_categories = AssetCategory::orderBy('name', 'asc')->get();
+        $plant_groups = PlantGroup::orderBy('name', 'asc')->get();
         $unitstatuses   = Unitstatus::orderBy('name')->get();
 
-        return view('equipments.edit', compact('equipment', 'projects', 'unitmodels', 'plant_types', 'asset_categories', 'unitstatuses'));
+        return view('equipments.edit', compact(['equipment', 'projects', 'unitmodels', 'plant_types', 'asset_categories', 'unitstatuses', 'plant_groups']));
     }
 
     public function update(Request $request, $id)
@@ -90,12 +92,12 @@ class EquipmentController extends Controller
             'asset_category_id' => ['required'],
             'unitstatus_id' => ['required'],
             'current_project_id' => ['required'],
+            'plant_group_id' => ['required'],
         ]);
 
         $equipment = Equipment::find($id);
 
         $equipment->update(array_merge($validated, [
-            'plant_group_id' => $request->plant_group_id,
             'updated_by' => auth()->user()->id,
         ]));
 
