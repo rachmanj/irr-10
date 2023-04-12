@@ -143,6 +143,45 @@ class EquipmentController extends Controller
         return redirect()->route('equipments.index')->with('success', 'Data successfully deleted');
     }
 
+
+    // UPDATE STATUS EQUIPMENT TO BD
+    public function update_bd(Request $request)
+    {
+        $equipments = Equipment::whereIn('id', $request->equipments)->where('unitstatus_id', 1)->get();
+
+        foreach ($equipments as $equipment) {
+            $equipment->update([
+                'is_rfu' => 0,
+            ]);
+        }
+
+        // save activity
+        $activity = app(ActivityController::class);
+        $activity->store(auth()->user()->id, 'update', 'Equipment', $equipment->id);
+
+        return redirect()->route('equipments.index')->with('success', 'Data successfully updated');
+    }
+
+    // UPDATE STATUS EQUIPMENT TO rfu
+    public function update_rfu(Request $request)
+    {
+        $equipments = Equipment::whereIn('id', $request->equipments)->where('unitstatus_id', 1)->get();
+
+        foreach ($equipments as $equipment) {
+            $equipment->update([
+                'is_rfu' => 1,
+            ]);
+        }
+
+        // save activity
+        $activity = app(ActivityController::class);
+        $activity->store(auth()->user()->id, 'update', 'Equipment', $equipment->id);
+
+        return redirect()->route('equipments.index')->with('success', 'Data successfully updated');
+    }
+
+    // FITUR UPLOAD PHOTOS
+
     public function photos_index($equipment_id)
     {
         $equipment = Equipment::find($equipment_id);
@@ -209,9 +248,20 @@ class EquipmentController extends Controller
             ->addColumn('asset_category', function ($equipments) {
                 return $equipments->asset_category->name;
             })
+            ->editColumn('is_rfu', function ($equipment) {
+                if ($equipment->unitstatus_id == 1) {
+                    if ($equipment->is_rfu == 1) {
+                        return '<span class="badge badge-success">RFU</span>';
+                    } else {
+                        return '<span class="badge badge-danger">B/D</span>';
+                    }
+                } else {
+                    return '<span class="badge badge-default">Non Active</span>';
+                }
+            })
             ->addIndexColumn()
             ->addColumn('action', 'equipments.action')
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'is_rfu'])
             ->toJson();
     }
 

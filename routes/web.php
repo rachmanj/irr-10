@@ -73,6 +73,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/{equipment}/edit_detail', [EquipmentController::class, 'edit_detail'])->name('edit_detail');
         Route::put('/{equipment}/update_detail', [EquipmentController::class, 'update_detail'])->name('update_detail');
         Route::get('/export_excel', [EquipmentController::class, 'equipment_export_excel'])->name('export_excel');
+        Route::post('/update_rfu', [EquipmentController::class, 'update_rfu'])->name('update_rfu');
+        Route::post('/update_bd', [EquipmentController::class, 'update_bd'])->name('update_bd');
         // PHOTOS
         Route::get('/{equipment_id}/photos', [EquipmentController::class, 'photos_index'])->name('photos.index');
         Route::post('/{equipment_id}/photos', [EquipmentController::class, 'photos_store'])->name('photos.store');

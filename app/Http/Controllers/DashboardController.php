@@ -24,6 +24,8 @@ class DashboardController extends Controller
             'plant_groups' => $this->getPlantGroup(),
             'activities' => $this->getActivities(),
             'documents_expired' => $this->getDocumentsExpired(),
+            'projects_for_active_units' => $this->getCurrentProjectsForActiveUnits(),
+            'active_units' => $this->getActiveUnits(),
         ]);
     }
 
@@ -102,5 +104,35 @@ class DashboardController extends Controller
             'documents_will_expired' => $documents_will_expired,
             'documents_expired' => $documents_expired,
         ];
+    }
+
+    public function getCurrentProjectsForActiveUnits()
+    {
+        // select distinct current_project_id from equipments where unitstatus_id = 1
+        $current_project_ids = DB::table('equipments')->distinct()
+            ->where('unitstatus_id', 1)
+            ->orderBy('current_project_id', 'asc')
+            ->pluck('current_project_id');
+
+        // get project code from projects table
+        $current_projects = DB::table('projects')->select('project_code', 'id')
+            ->whereIn('id', $current_project_ids)
+            ->orderBy('project_code', 'asc')
+            ->get();
+
+        return $current_projects;
+    }
+
+    public function getActiveUnits()
+    {
+        $active_units = Equipment::where('unitstatus_id', 1)
+            ->get();
+
+        return $active_units;
+    }
+
+    public function test()
+    {
+        return $this->getCurrentProjectsForActiveUnits();
     }
 }
