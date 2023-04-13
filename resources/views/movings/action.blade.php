@@ -1,4 +1,3 @@
-
   <form action="{{ route('movings.destroy', $model->id) }}" method="POST">
     @csrf @method('DELETE')
       <a href="{{ route('movings.print_pdf', $model->id) }}" class="btn btn-xs btn-success" target="_blank">print</a>

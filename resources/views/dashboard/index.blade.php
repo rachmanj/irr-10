@@ -13,10 +13,10 @@
    
   <div class="row">
     <div class="col-6">
-      @include('dashboard.activities')
+      @include('dashboard.document_expired')
     </div>
     <div class="col-6">
-      @include('dashboard.document_expired')
+      {{-- @include('dashboard.activities') --}}
     </div>
   </div>  
 
