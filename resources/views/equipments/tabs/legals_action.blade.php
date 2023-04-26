@@ -1,1 +1,0 @@
-  <a href="#" class="btn btn-xs btn-success"><i class="fas fa-search"></i></a>
