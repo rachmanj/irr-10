@@ -13,6 +13,10 @@
           
           @include('templates.partials.menu.dashboard')
 
+          @include('templates.partials.menu.accounting')
+          
+          @include('templates.partials.menu.masterdata')
+
           <li class="nav-header">ADMIN</li>
           @include('templates.partials.menu.users')
          

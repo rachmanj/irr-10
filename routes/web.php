@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,4 +45,16 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('index');
         Route::get('/test', [DashboardController::class, 'test'])->name('test');
     });
+
+    //INVOICES
+    Route::prefix('invoices')->name('invoices.')->group(function () {
+        Route::get('data', [InvoiceController::class, 'data'])->name('data');
+    });
+    Route::resource('invoices', InvoiceController::class);
+
+    // VENDORS
+    Route::prefix('suppliers')->name('suppliers.')->group(function () {
+        Route::get('data', [SupplierController::class, 'data'])->name('data');
+    });
+    Route::resource('suppliers', SupplierController::class);
 });
